@@ -88,11 +88,11 @@ export default function Home() {
             <div className="text-2xl font-bold">
               {/* <span className="text-green-400">SPRITLE</span> */}
               {/* <img src="client\public\images\spritlelogo.png"/> */}
-              {/* <img src="/images/spritlelogo.png" alt="Spritle Logo" />
+              {/* <img src={`${import.meta.env.BASE_URL}images/spritlelogo.png`} alt="Spritle Logo" />
                */}
               <div className="text-2xl font-bold">
                 <img
-                  src="/images/spritlelogo.png"
+                  src={`${import.meta.env.BASE_URL}images/spritlelogo.png`}
                   alt="Spritle Logo"
                   className="h-10 w-auto"
                 />
