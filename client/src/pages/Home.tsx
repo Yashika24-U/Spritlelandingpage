@@ -15,8 +15,8 @@ import { useState } from "react";
 
 export default function Home() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     email: "",
     phone: "",
     message: "",
@@ -26,59 +26,43 @@ export default function Home() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  // const handleFormSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   console.log("Form submitted:", formData);
-  //   // Reset form
-  //   setFormData({
-  //     firstName: "",
-  //     lastName: "",
-  //     email: "",
-  //     phone: "",
-  //     message: "",
-  //   });
-  // };
-
   const handleFormSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbxABC123/exec",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      }
-    );
+    try {
+      console.log("formData", formData);
 
-    if (response.ok) {
+      await fetch(
+        "https://script.google.com/macros/s/AKfycbxlUuHGM55_6bh5V8m7Kwhmh4MWkbszSzFGq_gtJTSNVrlVFnRKNscgchXF0oUVWQ0N/exec",
+        {
+          method: "POST",
+          mode: "no-cors", // avoids CORS preflight
+          headers: { "Content-Type": "text/plain" }, // prevents OPTIONS preflight
+          body: JSON.stringify(formData),
+        }
+      );
+
+      // Opaque response — we assume success
       alert("Thank you! Our team will contact you shortly.");
 
       setFormData({
-        firstName: "",
-        lastName: "",
+        firstname: "",
+        lastname: "",
         email: "",
         phone: "",
         message: "",
       });
-    } else {
+    } catch (error) {
+      console.error("Form submission error:", error);
       alert("Submission failed. Please try again.");
     }
-  } catch (error) {
-    console.error("Form error:", error);
-    alert("Something went wrong. Please try later.");
-  }
-};
-
+  };
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -87,19 +71,13 @@ export default function Home() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="text-2xl font-bold">
-              {/* <span className="text-green-400">SPRITLE</span> */}
-              {/* <img src="client\public\images\spritlelogo.png"/> */}
-              {/* <img src="/images/spritlelogo.png" alt="Spritle Logo" />
-               */}
-               <div className="text-2xl font-bold">
-  <img
-    src="/images/spritlelogo.png"
-    alt="Spritle Logo"
-    className="h-10 w-auto"
-  />
-</div>
-
-
+              <div className="text-2xl font-bold">
+                <img
+                  src="/images/spritlelogo.png"
+                  alt="Spritle Logo"
+                  className="h-10 w-auto"
+                />
+              </div>
             </div>
           </div>
           {/* <nav className="hidden md:flex gap-8">
@@ -117,7 +95,10 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
+      <section
+        className="relative min-h-screen flex items-center overflow-hidden"
+        id="contactform"
+      >
         <div
           className="absolute inset-0 z-0"
           style={{
@@ -127,16 +108,15 @@ export default function Home() {
             opacity: 0.3,
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent z-1" />
 
         <div className="container mx-auto px-4 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="space-y-8">
             <div className="space-y-4">
-              <h1 className= "text-5xl  lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
-                ManageEngine ServiceDesk Plus (SDP) 
+              <h1 className="text-5xl  lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
+                ManageEngine ServiceDesk Plus (SDP)
                 <br />
-                <span className= "text-5xl lg:text-6xl font-bold leading-tight text-white">
+                <span className="text-5xl lg:text-6xl font-bold leading-tight text-white">
                   Enterprise ITSM Solution
                 </span>
               </h1>
@@ -168,18 +148,20 @@ export default function Home() {
               </li>
             </ul>
 
-            <Button
+            {/* <Button
               size="lg"
               className="bg-green-500 hover:bg-green-600 text-black font-semibold"
             >
               Request Demo
-            </Button>
+            </Button> */}
           </div>
 
           {/* Right Form */}
           <div className="bg-gray-900/80 backdrop-blur border border-gray-800 rounded-lg p-8 space-y-6">
             <div>
-              <h3 className="text-2xl font-bold mb-2">Talk to our ITSM Expert</h3>
+              <h3 className="text-2xl font-bold mb-2">
+                Talk to our ITSM Expert
+              </h3>
               <p className="text-gray-400">
                 Get expert guidance on ManageEngine ServiceDesk Plus (SDP-ITSM)
                 for your IT service management needs.
@@ -190,16 +172,16 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-4">
                 <Input
                   placeholder="First name*"
-                  name="firstName"
-                  value={formData.firstName}
+                  name="firstname"
+                  value={formData.firstname}
                   onChange={handleFormChange}
                   required
                   className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
                 />
                 <Input
                   placeholder="Last name*"
-                  name="lastName"
-                  value={formData.lastName}
+                  name="lastname"
+                  value={formData.lastname}
                   onChange={handleFormChange}
                   required
                   className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
@@ -237,6 +219,11 @@ export default function Home() {
               <Button
                 type="submit"
                 className="w-full bg-white text-black hover:bg-gray-200 font-semibold"
+                onClick={() => {
+                  document
+                    .getElementById("contactform")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
               >
                 Send
               </Button>
@@ -282,7 +269,9 @@ export default function Home() {
                       </svg>
                     </div>
                   </div>
-                  <h4 className="text-xl font-semibold">Modern ITSM Workflows</h4>
+                  <h4 className="text-xl font-semibold">
+                    Modern ITSM Workflows
+                  </h4>
                 </div>
 
                 {/* Pillar 2 */}
@@ -298,7 +287,9 @@ export default function Home() {
                       </svg>
                     </div>
                   </div>
-                  <h4 className="text-xl font-semibold">AI-powered Ticketing</h4>
+                  <h4 className="text-xl font-semibold">
+                    AI-powered Ticketing
+                  </h4>
                 </div>
 
                 {/* Pillar 3 */}
@@ -325,7 +316,10 @@ export default function Home() {
       </section>
 
       {/* Why Choose Section */}
-      <section id="features" className="py-20 bg-black border-t border-gray-800">
+      <section
+        id="features"
+        className="py-20 bg-black border-t border-gray-800"
+      >
         <div className="container mx-auto px-4">
           <h2 className="text-4xl lg:text-5xl font-bold text-center mb-16">
             Why Choose ManageEngine ServiceDesk Plus?
@@ -380,7 +374,9 @@ export default function Home() {
                 <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-sm">✓</span>
                 </div>
-                <h3 className="text-xl font-semibold">Enterprise Scalability</h3>
+                <h3 className="text-xl font-semibold">
+                  Enterprise Scalability
+                </h3>
               </div>
               <p className="text-gray-400">
                 Easily support multi-site and growing IT environments with
@@ -425,6 +421,11 @@ export default function Home() {
             <Button
               size="lg"
               className="bg-green-500 hover:bg-green-600 text-black font-semibold"
+              onClick={() => {
+                document
+                  .getElementById("contactform")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
             >
               Contact Us Today
             </Button>
@@ -433,7 +434,10 @@ export default function Home() {
       </section>
 
       {/* Core Capabilities Section */}
-      <section id="capabilities" className="py-20 bg-gradient-to-b from-black to-gray-950 border-t border-gray-800">
+      <section
+        id="capabilities"
+        className="py-20 bg-gradient-to-b from-black to-gray-950 border-t border-gray-800"
+      >
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left Image */}
@@ -466,9 +470,7 @@ export default function Home() {
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-green-400 font-bold">•</span>
-                  <span className="text-lg">
-                    Problem and Change Management
-                  </span>
+                  <span className="text-lg">Problem and Change Management</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-green-400 font-bold">•</span>
@@ -553,7 +555,10 @@ export default function Home() {
       </section>
 
       {/* Final CTA Section */}
-      <section id="contact" className="py-20 bg-gradient-to-b from-black to-gray-950 border-t border-gray-800">
+      <section
+        id="contact"
+        className="py-20 bg-gradient-to-b from-black to-gray-950 border-t border-gray-800"
+      >
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <div>
@@ -571,6 +576,11 @@ export default function Home() {
             <Button
               size="lg"
               className="bg-green-500 hover:bg-green-600 text-black font-semibold"
+              onClick={() => {
+                document
+                  .getElementById("contactform")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
             >
               Talk to an ITSM Expert
             </Button>

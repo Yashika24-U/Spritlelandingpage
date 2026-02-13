@@ -15,8 +15,8 @@ import { useState } from "react";
 
 export default function Home() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     email: "",
     phone: "",
     message: "",
@@ -26,7 +26,7 @@ export default function Home() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       [name]: value,
     }));
@@ -37,8 +37,8 @@ export default function Home() {
   //   console.log("Form submitted:", formData);
   //   // Reset form
   //   setFormData({
-  //     firstName: "",
-  //     lastName: "",
+  //     firstname: "",
+  //     lastname: "",
   //     email: "",
   //     phone: "",
   //     message: "",
@@ -46,39 +46,36 @@ export default function Home() {
   // };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbxABC123/exec",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      }
-    );
+    try {
+      console.log("formData", formData);
 
-    if (response.ok) {
+      await fetch(
+        "https://script.google.com/macros/s/AKfycbxlUuHGM55_6bh5V8m7Kwhmh4MWkbszSzFGq_gtJTSNVrlVFnRKNscgchXF0oUVWQ0N/exec",
+        {
+          method: "POST",
+          mode: "no-cors", // avoids CORS preflight
+          headers: { "Content-Type": "text/plain" }, // prevents OPTIONS preflight
+          body: JSON.stringify(formData),
+        }
+      );
+
+      // Opaque response — we assume success
       alert("Thank you! Our team will contact you shortly.");
 
       setFormData({
-        firstName: "",
-        lastName: "",
+        firstname: "",
+        lastname: "",
         email: "",
         phone: "",
         message: "",
       });
-    } else {
+    } catch (error) {
+      console.error("Form submission error:", error);
       alert("Submission failed. Please try again.");
     }
-  } catch (error) {
-    console.error("Form error:", error);
-    alert("Something went wrong. Please try later.");
-  }
-};
-
+  };
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -91,15 +88,13 @@ export default function Home() {
               {/* <img src="client\public\images\spritlelogo.png"/> */}
               {/* <img src="/images/spritlelogo.png" alt="Spritle Logo" />
                */}
-               <div className="text-2xl font-bold">
-  <img
-    src="/images/spritlelogo.png"
-    alt="Spritle Logo"
-    className="h-10 w-auto"
-  />
-</div>
-
-
+              <div className="text-2xl font-bold">
+                <img
+                  src="/images/spritlelogo.png"
+                  alt="Spritle Logo"
+                  className="h-10 w-auto"
+                />
+              </div>
             </div>
           </div>
           {/* <nav className="hidden md:flex gap-8">
@@ -117,7 +112,10 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
+      <section
+        className="relative min-h-screen flex items-center overflow-hidden"
+        id="contactform"
+      >
         <div
           className="absolute inset-0 z-0"
           style={{
@@ -133,17 +131,17 @@ export default function Home() {
           {/* Left Content */}
           <div className="space-y-8">
             <div className="space-y-4">
-              <h1 className=      "text-5xl  lg:text-6xl font-bold leading-tight text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
+              <h1 className="text-5xl  lg:text-6xl font-bold leading-tight text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
                 ManageEngine Site24x7
                 <br />
                 <span className="text-5xl lg:text-6xl font-bold leading-tight text-white">
                   Monitor Your Digital Presence Anytime
-
                 </span>
               </h1>
               <p className="text-xl text-gray-300 leading-relaxed">
-                ManageEngine Site24x7 helps organizations track website, server, application, and cloud performance in real time, ensuring seamless user experiences and business continuity.
-
+                ManageEngine Site24x7 helps organizations track website, server,
+                application, and cloud performance in real time, ensuring
+                seamless user experiences and business continuity.
               </p>
             </div>
 
@@ -158,37 +156,34 @@ export default function Home() {
                 <span className="text-green-400 mt-1">✓</span>
                 <span className="text-lg">
                   Gain instant insights into performance and downtime
-
                 </span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-green-400 mt-1">✓</span>
                 <span className="text-lg">
                   Keep users happy with reliable digital services
-
-
-
                 </span>
               </li>
             </ul>
 
-            <Button
+            {/* <Button
               size="lg"
               className="bg-green-500 hover:bg-green-600 text-black font-semibold"
             >
               Request Demo
-            </Button>
+            </Button> */}
           </div>
 
           {/* Right Form */}
           <div className="bg-gray-900/80 backdrop-blur border border-gray-800 rounded-lg p-8 space-y-6">
             <div>
-              <h3 className="text-2xl font-bold mb-2">Talk to a Digital Monitoring Expert
-
-</h3>
+              <h3 className="text-2xl font-bold mb-2">
+                Talk to a Digital Monitoring Expert
+              </h3>
               <p className="text-gray-400">
-                Get expert guidance on implementing Site24x7 to monitor your IT infrastructure, detect performance bottlenecks, and ensure uninterrupted digital services.
-
+                Get expert guidance on implementing Site24x7 to monitor your IT
+                infrastructure, detect performance bottlenecks, and ensure
+                uninterrupted digital services.
               </p>
             </div>
 
@@ -196,16 +191,16 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-4">
                 <Input
                   placeholder="First name*"
-                  name="firstName"
-                  value={formData.firstName}
+                  name="firstname"
+                  value={formData.firstname}
                   onChange={handleFormChange}
                   required
                   className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
                 />
                 <Input
                   placeholder="Last name*"
-                  name="lastName"
-                  value={formData.lastName}
+                  name="lastname"
+                  value={formData.lastname}
                   onChange={handleFormChange}
                   required
                   className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
@@ -243,6 +238,11 @@ export default function Home() {
               <Button
                 type="submit"
                 className="w-full bg-white text-black hover:bg-gray-200 font-semibold"
+                onClick={() => {
+                  document
+                    .getElementById("contactform")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
               >
                 Send
               </Button>
@@ -262,10 +262,12 @@ export default function Home() {
             <div>
               <h2 className="text-4xl lg:text-5xl font-bold mb-6">
                 What is ManageEngine Site24x7?
-
               </h2>
               <p className="text-xl text-gray-400 leading-relaxed">
-                ManageEngine Site24x7 is a cloud-based monitoring tool that helps IT teams track website, server, application, and cloud performance from one platform, ensuring high uptime and smooth digital experiences.
+                ManageEngine Site24x7 is a cloud-based monitoring tool that
+                helps IT teams track website, server, application, and cloud
+                performance from one platform, ensuring high uptime and smooth
+                digital experiences.
               </p>
             </div>
 
@@ -287,8 +289,7 @@ export default function Home() {
                       </svg>
                     </div>
                   </div>
-                  <h4 className="text-xl font-semibold">Unified Monitoring
-</h4>
+                  <h4 className="text-xl font-semibold">Unified Monitoring</h4>
                 </div>
 
                 {/* Pillar 2 */}
@@ -305,9 +306,8 @@ export default function Home() {
                     </div>
                   </div>
                   <h4 className="text-xl font-semibold">
-
-Performance & Uptime Assurance
- </h4>
+                    Performance & Uptime Assurance
+                  </h4>
                 </div>
 
                 {/* Pillar 3 */}
@@ -334,12 +334,13 @@ Performance & Uptime Assurance
       </section>
 
       {/* Why Choose Section */}
-      <section id="features" className="py-20 bg-black border-t border-gray-800">
+      <section
+        id="features"
+        className="py-20 bg-black border-t border-gray-800"
+      >
         <div className="container mx-auto px-4">
           <h2 className="text-4xl lg:text-5xl font-bold text-center mb-16">
             Why Choose ManageEngine Site24x7?
-
-
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -349,12 +350,13 @@ Performance & Uptime Assurance
                 <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-sm">✓</span>
                 </div>
-                <h3 className="text-xl font-semibold">Complete Digital Monitoring</h3>
+                <h3 className="text-xl font-semibold">
+                  Complete Digital Monitoring
+                </h3>
               </div>
               <p className="text-gray-400">
-                Track websites, applications, servers, and cloud resources from one console.
-
-
+                Track websites, applications, servers, and cloud resources from
+                one console.
               </p>
             </div>
 
@@ -364,11 +366,13 @@ Performance & Uptime Assurance
                 <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-sm">✓</span>
                 </div>
-                <h3 className="text-xl font-semibold">Faster Issue Detection</h3>
+                <h3 className="text-xl font-semibold">
+                  Faster Issue Detection
+                </h3>
               </div>
               <p className="text-gray-400">
-                Identify performance bottlenecks and downtime before they impact users.
-
+                Identify performance bottlenecks and downtime before they impact
+                users.
               </p>
             </div>
 
@@ -378,11 +382,14 @@ Performance & Uptime Assurance
                 <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-sm">✓</span>
                 </div>
-                <h3 className="text-xl font-semibold"> Enhanced User Experiencey</h3>
+                <h3 className="text-xl font-semibold">
+                  {" "}
+                  Enhanced User Experiencey
+                </h3>
               </div>
               <p className="text-gray-400">
-                Optimize application and website performance to keep users satisfied.
-
+                Optimize application and website performance to keep users
+                satisfied.
               </p>
             </div>
 
@@ -392,12 +399,14 @@ Performance & Uptime Assurance
                 <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-sm">✓</span>
                 </div>
-                <h3 className="text-xl font-semibold"> Simplified IT Operations
-</h3>
+                <h3 className="text-xl font-semibold">
+                  {" "}
+                  Simplified IT Operations
+                </h3>
               </div>
               <p className="text-gray-400">
-                 Centralized dashboards and automated reports reduce manual monitoring efforts.
-
+                Centralized dashboards and automated reports reduce manual
+                monitoring efforts.
               </p>
             </div>
 
@@ -409,12 +418,11 @@ Performance & Uptime Assurance
                 </div>
                 <h3 className="text-xl font-semibold">
                   Real-Time Alerts & Insights
-
                 </h3>
               </div>
               <p className="text-gray-400">
-                Get instant notifications and actionable insights to respond to issues quickly.
-
+                Get instant notifications and actionable insights to respond to
+                issues quickly.
               </p>
             </div>
 
@@ -426,13 +434,11 @@ Performance & Uptime Assurance
                 </div>
                 <h3 className="text-xl font-semibold">
                   Scalable & Cloud-Ready
-
                 </h3>
               </div>
               <p className="text-gray-400">
-                Easily scale monitoring as your infrastructure grows across cloud and hybrid environments.
-
-
+                Easily scale monitoring as your infrastructure grows across
+                cloud and hybrid environments.
               </p>
             </div>
           </div>
@@ -441,6 +447,11 @@ Performance & Uptime Assurance
             <Button
               size="lg"
               className="bg-green-500 hover:bg-green-600 text-black font-semibold"
+              onClick={() => {
+                document
+                  .getElementById("contactform")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
             >
               Contact Us Today
             </Button>
@@ -449,7 +460,10 @@ Performance & Uptime Assurance
       </section>
 
       {/* Core Capabilities Section */}
-      <section id="capabilities" className="py-20 bg-gradient-to-b from-black to-gray-950 border-t border-gray-800">
+      <section
+        id="capabilities"
+        className="py-20 bg-gradient-to-b from-black to-gray-950 border-t border-gray-800"
+      >
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left Image */}
@@ -470,24 +484,18 @@ Performance & Uptime Assurance
               <div>
                 <h2 className="text-4xl lg:text-5xl font-bold mb-6">
                   Site24x7 – Core Monitoring Capabilities
-
                 </h2>
               </div>
 
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
                   <span className="text-green-400 font-bold">•</span>
-                  <span className="text-lg">
-                    Website and Server Monitoring
-
-                  </span>
+                  <span className="text-lg">Website and Server Monitoring</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-green-400 font-bold">•</span>
                   <span className="text-lg">
                     Application Performance Monitoring (APM)
-
-
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
@@ -500,35 +508,29 @@ Performance & Uptime Assurance
                   <span className="text-green-400 font-bold">•</span>
                   <span className="text-lg">
                     Real-Time Alerts & Notifications
-
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-green-400 font-bold">•</span>
-                  <span className="text-lg">SLA Tracking & Custom Reports
-</span>
+                  <span className="text-lg">SLA Tracking & Custom Reports</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-green-400 font-bold">•</span>
                   <span className="text-lg">
                     Network Performance Monitoring
-
-
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-green-400 font-bold">•</span>
                   <span className="text-lg">
                     Synthetic Transaction Monitoring
-
-
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-green-400 font-bold">•</span>
-                  <span className="text-lg">End-User Experience Monitoring
-
-</span>
+                  <span className="text-lg">
+                    End-User Experience Monitoring
+                  </span>
                 </li>
               </ul>
             </div>
@@ -542,8 +544,6 @@ Performance & Uptime Assurance
           <div className="max-w-4xl mx-auto">
             <h2 className="text-4xl lg:text-5xl font-bold text-center mb-12">
               Who Should Use ManageEngine Site24x7?
-
-
             </h2>
 
             <div className="bg-gray-900 border border-gray-800 rounded-lg p-12 space-y-6">
@@ -551,25 +551,18 @@ Performance & Uptime Assurance
                 <span className="text-green-400 text-2xl font-bold">✓</span>
                 <p className="text-lg">
                   IT admins managing websites, servers, and applications
-
-
-
-
                 </p>
               </div>
               <div className="flex items-start gap-4">
                 <span className="text-green-400 text-2xl font-bold">✓</span>
                 <p className="text-lg">
                   Enterprises monitoring cloud and hybrid IT infrastructure
-
                 </p>
               </div>
               <div className="flex items-start gap-4">
                 <span className="text-green-400 text-2xl font-bold">✓</span>
                 <p className="text-lg">
                   Organizations focused on improving user experience
-
-
                 </p>
               </div>
               <div className="flex items-start gap-4">
@@ -582,8 +575,6 @@ Performance & Uptime Assurance
                 <span className="text-green-400 text-2xl font-bold">✓</span>
                 <p className="text-lg">
                   Companies seeking centralized digital performance monitoring
-
-
                 </p>
               </div>
             </div>
@@ -592,23 +583,32 @@ Performance & Uptime Assurance
       </section>
 
       {/* Final CTA Section */}
-      <section id="contact" className="py-20 bg-gradient-to-b from-black to-gray-950 border-t border-gray-800">
+      <section
+        id="contact"
+        className="py-20 bg-gradient-to-b from-black to-gray-950 border-t border-gray-800"
+      >
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <div>
               <h2 className="text-4xl lg:text-5xl font-bold mb-6">
                 Ensure Your Digital Services Never Miss a Beat
-
               </h2>
               <p className="text-xl text-gray-400 leading-relaxed">
-                Monitor websites, applications, and cloud resources effectively with ManageEngine Site24x7. Get expert guidance to implement a scalable, reliable, and efficient digital monitoring strategy tailored to your organization.
-
+                Monitor websites, applications, and cloud resources effectively
+                with ManageEngine Site24x7. Get expert guidance to implement a
+                scalable, reliable, and efficient digital monitoring strategy
+                tailored to your organization.
               </p>
             </div>
 
             <Button
               size="lg"
               className="bg-green-500 hover:bg-green-600 text-black font-semibold"
+              onClick={() => {
+                document
+                  .getElementById("contactform")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
             >
               Talk to an ITSM Expert
             </Button>

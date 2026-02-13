@@ -15,8 +15,8 @@ import { useState } from "react";
 
 export default function Home() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     email: "",
     phone: "",
     message: "",
@@ -37,8 +37,8 @@ export default function Home() {
   //   console.log("Form submitted:", formData);
   //   // Reset form
   //   setFormData({
-  //     firstName: "",
-  //     lastName: "",
+  //     firstname: "",
+  //     lastname: "",
   //     email: "",
   //     phone: "",
   //     message: "",
@@ -49,33 +49,31 @@ export default function Home() {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        "https://script.google.com/macros/s/AKfycbxABC123/exec",
+      console.log("formData", formData);
+
+      await fetch(
+        "https://script.google.com/macros/s/AKfycbxlUuHGM55_6bh5V8m7Kwhmh4MWkbszSzFGq_gtJTSNVrlVFnRKNscgchXF0oUVWQ0N/exec",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          mode: "no-cors", // avoids CORS preflight
+          headers: { "Content-Type": "text/plain" }, // prevents OPTIONS preflight
           body: JSON.stringify(formData),
         }
       );
 
-      if (response.ok) {
-        alert("Thank you! Our team will contact you shortly.");
+      // Opaque response — we assume success
+      alert("Thank you! Our team will contact you shortly.");
 
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          message: "",
-        });
-      } else {
-        alert("Submission failed. Please try again.");
-      }
+      setFormData({
+        firstname: "",
+        lastname: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
     } catch (error) {
-      console.error("Form error:", error);
-      alert("Something went wrong. Please try later.");
+      console.error("Form submission error:", error);
+      alert("Submission failed. Please try again.");
     }
   };
 
@@ -114,7 +112,10 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
+      <section
+        className="relative min-h-screen flex items-center overflow-hidden"
+        id="contactform"
+      >
         <div
           className="absolute inset-0 z-0"
           style={{
@@ -165,12 +166,12 @@ export default function Home() {
               </li>
             </ul>
 
-            <Button
+            {/* <Button
               size="lg"
               className="bg-green-500 hover:bg-green-600 text-black font-semibold"
             >
               Request Demo
-            </Button>
+            </Button> */}
           </div>
 
           {/* Right Form */}
@@ -190,16 +191,16 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-4">
                 <Input
                   placeholder="First name*"
-                  name="firstName"
-                  value={formData.firstName}
+                  name="firstname"
+                  value={formData.firstname}
                   onChange={handleFormChange}
                   required
                   className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
                 />
                 <Input
                   placeholder="Last name*"
-                  name="lastName"
-                  value={formData.lastName}
+                  name="lastname"
+                  value={formData.lastname}
                   onChange={handleFormChange}
                   required
                   className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
@@ -237,6 +238,11 @@ export default function Home() {
               <Button
                 type="submit"
                 className="w-full bg-white text-black hover:bg-gray-200 font-semibold"
+                onClick={() => {
+                  document
+                    .getElementById("contactform")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
               >
                 Send
               </Button>
@@ -443,6 +449,11 @@ export default function Home() {
             <Button
               size="lg"
               className="bg-green-500 hover:bg-green-600 text-black font-semibold"
+              onClick={() => {
+                document
+                  .getElementById("contactform")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
             >
               Contact Us Today
             </Button>
@@ -596,6 +607,11 @@ export default function Home() {
             <Button
               size="lg"
               className="bg-green-500 hover:bg-green-600 text-black font-semibold"
+              onClick={() => {
+                document
+                  .getElementById("contactform")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
             >
               Talk to an ITSM Expert
             </Button>

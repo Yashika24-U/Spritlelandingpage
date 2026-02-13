@@ -15,8 +15,8 @@ import { useState } from "react";
 
 export default function Home() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     email: "",
     phone: "",
     message: "",
@@ -26,7 +26,7 @@ export default function Home() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       [name]: value,
     }));
@@ -37,8 +37,8 @@ export default function Home() {
   //   console.log("Form submitted:", formData);
   //   // Reset form
   //   setFormData({
-  //     firstName: "",
-  //     lastName: "",
+  //     firstname: "",
+  //     lastname: "",
   //     email: "",
   //     phone: "",
   //     message: "",
@@ -46,39 +46,36 @@ export default function Home() {
   // };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbxABC123/exec",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      }
-    );
+    try {
+      console.log("formData", formData);
 
-    if (response.ok) {
+      await fetch(
+        "https://script.google.com/macros/s/AKfycbxlUuHGM55_6bh5V8m7Kwhmh4MWkbszSzFGq_gtJTSNVrlVFnRKNscgchXF0oUVWQ0N/exec",
+        {
+          method: "POST",
+          mode: "no-cors", // avoids CORS preflight
+          headers: { "Content-Type": "text/plain" }, // prevents OPTIONS preflight
+          body: JSON.stringify(formData),
+        }
+      );
+
+      // Opaque response — we assume success
       alert("Thank you! Our team will contact you shortly.");
 
       setFormData({
-        firstName: "",
-        lastName: "",
+        firstname: "",
+        lastname: "",
         email: "",
         phone: "",
         message: "",
       });
-    } else {
+    } catch (error) {
+      console.error("Form submission error:", error);
       alert("Submission failed. Please try again.");
     }
-  } catch (error) {
-    console.error("Form error:", error);
-    alert("Something went wrong. Please try later.");
-  }
-};
-
+  };
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -91,15 +88,13 @@ export default function Home() {
               {/* <img src="client\public\images\spritlelogo.png"/> */}
               {/* <img src="/images/spritlelogo.png" alt="Spritle Logo" />
                */}
-               <div className="text-2xl font-bold">
-  <img
-    src="/images/spritlelogo.png"
-    alt="Spritle Logo"
-    className="h-10 w-auto"
-  />
-</div>
-
-
+              <div className="text-2xl font-bold">
+                <img
+                  src="/images/spritlelogo.png"
+                  alt="Spritle Logo"
+                  className="h-10 w-auto"
+                />
+              </div>
             </div>
           </div>
           {/* <nav className="hidden md:flex gap-8">
@@ -117,7 +112,10 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
+      <section
+        className="relative min-h-screen flex items-center overflow-hidden"
+        id="contactform"
+      >
         <div
           className="absolute inset-0 z-0"
           style={{
@@ -133,18 +131,18 @@ export default function Home() {
           {/* Left Content */}
           <div className="space-y-8">
             <div className="space-y-4">
-              <h1 className=  "text-5xl  lg:text-6xl font-bold leading-tight space-y-4 text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
-                ManageEngine Endpoint Central 
+              <h1 className="text-5xl  lg:text-6xl font-bold leading-tight space-y-4 text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
+                ManageEngine Endpoint Central
                 <br />
-                <span className=
-"text-5xl lg:text-6xl font-bold leading-tight text-white">
+                <span className="text-5xl lg:text-6xl font-bold leading-tight text-white">
                   Complete Endpoint Management Solution
-
                 </span>
               </h1>
               <p className="text-xl text-gray-300 leading-relaxed">
-                ManageEngine Endpoint Central helps organizations efficiently manage and secure desktops, laptops, servers, and mobile devices from a single console — ensuring smooth IT operations and improved endpoint security.
-
+                ManageEngine Endpoint Central helps organizations efficiently
+                manage and secure desktops, laptops, servers, and mobile devices
+                from a single console — ensuring smooth IT operations and
+                improved endpoint security.
               </p>
             </div>
 
@@ -152,42 +150,42 @@ export default function Home() {
               <li className="flex items-start gap-3">
                 <span className="text-green-400 mt-1">✓</span>
                 <span className="text-lg">
-                  Automate patch management, software deployment, and asset tracking
-
+                  Automate patch management, software deployment, and asset
+                  tracking
                 </span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-green-400 mt-1">✓</span>
                 <span className="text-lg">
                   Ensure endpoint compliance and minimize security risks
-
                 </span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-green-400 mt-1">✓</span>
                 <span className="text-lg">
                   Streamline IT operations for faster productivity
-
                 </span>
               </li>
             </ul>
 
-            <Button
+            {/* <Button
               size="lg"
               className="bg-green-500 hover:bg-green-600 text-black font-semibold"
             >
               Request Demo
-            </Button>
+            </Button> */}
           </div>
 
           {/* Right Form */}
           <div className="bg-gray-900/80 backdrop-blur border border-gray-800 rounded-lg p-8 space-y-6">
             <div>
-              <h3 className="text-2xl font-bold mb-2">Talk to an Endpoint Management Expert
-</h3>
+              <h3 className="text-2xl font-bold mb-2">
+                Talk to an Endpoint Management Expert
+              </h3>
               <p className="text-gray-400">
-                Get expert guidance on implementing ManageEngine Endpoint Central to automate IT tasks, secure endpoints, and maintain operational efficiency.
-
+                Get expert guidance on implementing ManageEngine Endpoint
+                Central to automate IT tasks, secure endpoints, and maintain
+                operational efficiency.
               </p>
             </div>
 
@@ -195,16 +193,16 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-4">
                 <Input
                   placeholder="First name*"
-                  name="firstName"
-                  value={formData.firstName}
+                  name="firstname"
+                  value={formData.firstname}
                   onChange={handleFormChange}
                   required
                   className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
                 />
                 <Input
                   placeholder="Last name*"
-                  name="lastName"
-                  value={formData.lastName}
+                  name="lastname"
+                  value={formData.lastname}
                   onChange={handleFormChange}
                   required
                   className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
@@ -242,6 +240,11 @@ export default function Home() {
               <Button
                 type="submit"
                 className="w-full bg-white text-black hover:bg-gray-200 font-semibold"
+                onClick={() => {
+                  document
+                    .getElementById("contactform")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
               >
                 Send
               </Button>
@@ -261,12 +264,12 @@ export default function Home() {
             <div>
               <h2 className="text-4xl lg:text-5xl font-bold mb-6">
                 What is ManageEngine Endpoint Central?
-
               </h2>
               <p className="text-xl text-gray-400 leading-relaxed">
-                ManageEngine Endpoint Central is a unified endpoint management platform that helps IT teams manage, monitor, and secure all endpoints from a single console.
-It automates IT tasks, enforces compliance, and reduces security risks for smooth IT operations.
-
+                ManageEngine Endpoint Central is a unified endpoint management
+                platform that helps IT teams manage, monitor, and secure all
+                endpoints from a single console. It automates IT tasks, enforces
+                compliance, and reduces security risks for smooth IT operations.
               </p>
             </div>
 
@@ -288,7 +291,9 @@ It automates IT tasks, enforces compliance, and reduces security risks for smoot
                       </svg>
                     </div>
                   </div>
-                  <h4 className="text-xl font-semibold">Unified Endpoint Management</h4>
+                  <h4 className="text-xl font-semibold">
+                    Unified Endpoint Management
+                  </h4>
                 </div>
 
                 {/* Pillar 2 */}
@@ -304,7 +309,9 @@ It automates IT tasks, enforces compliance, and reduces security risks for smoot
                       </svg>
                     </div>
                   </div>
-                  <h4 className="text-xl font-semibold">Automation & Patch Management </h4>
+                  <h4 className="text-xl font-semibold">
+                    Automation & Patch Management{" "}
+                  </h4>
                 </div>
 
                 {/* Pillar 3 */}
@@ -321,7 +328,7 @@ It automates IT tasks, enforces compliance, and reduces security risks for smoot
                     </div>
                   </div>
                   <h4 className="text-xl font-semibold">
-                    Security, Compliance & Monitoring 
+                    Security, Compliance & Monitoring
                   </h4>
                 </div>
               </div>
@@ -331,11 +338,13 @@ It automates IT tasks, enforces compliance, and reduces security risks for smoot
       </section>
 
       {/* Why Choose Section */}
-      <section id="features" className="py-20 bg-black border-t border-gray-800">
+      <section
+        id="features"
+        className="py-20 bg-black border-t border-gray-800"
+      >
         <div className="container mx-auto px-4">
           <h2 className="text-4xl lg:text-5xl font-bold text-center mb-16">
             Why Choose ManageEngine Endpoint Central?
-
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -345,12 +354,13 @@ It automates IT tasks, enforces compliance, and reduces security risks for smoot
                 <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-sm">✓</span>
                 </div>
-                <h3 className="text-xl font-semibold">Comprehensive Endpoint Management
-</h3>
+                <h3 className="text-xl font-semibold">
+                  Comprehensive Endpoint Management
+                </h3>
               </div>
               <p className="text-gray-400">
-                Manage all endpoints, including Windows, macOS, Linux, and mobile devices, from one centralized console.
-
+                Manage all endpoints, including Windows, macOS, Linux, and
+                mobile devices, from one centralized console.
               </p>
             </div>
 
@@ -360,12 +370,13 @@ It automates IT tasks, enforces compliance, and reduces security risks for smoot
                 <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-sm">✓</span>
                 </div>
-                <h3 className="text-xl font-semibold">Automated Patch and Software Deployment
-</h3>
+                <h3 className="text-xl font-semibold">
+                  Automated Patch and Software Deployment
+                </h3>
               </div>
               <p className="text-gray-400">
-                 Keep systems updated with automated patching and seamless software distribution.
-
+                Keep systems updated with automated patching and seamless
+                software distribution.
               </p>
             </div>
 
@@ -375,12 +386,14 @@ It automates IT tasks, enforces compliance, and reduces security risks for smoot
                 <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-sm">✓</span>
                 </div>
-                <h3 className="text-xl font-semibold"> Enhanced Security & Compliance
-</h3>
+                <h3 className="text-xl font-semibold">
+                  {" "}
+                  Enhanced Security & Compliance
+                </h3>
               </div>
               <p className="text-gray-400">
-                Enforce security policies, monitor compliance, and reduce vulnerabilities across your IT environment.
-
+                Enforce security policies, monitor compliance, and reduce
+                vulnerabilities across your IT environment.
               </p>
             </div>
 
@@ -390,12 +403,13 @@ It automates IT tasks, enforces compliance, and reduces security risks for smoot
                 <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-sm">✓</span>
                 </div>
-                <h3 className="text-xl font-semibold">Streamlined IT Operations
-</h3>
+                <h3 className="text-xl font-semibold">
+                  Streamlined IT Operations
+                </h3>
               </div>
               <p className="text-gray-400">
-                Automate repetitive tasks, gain visibility into assets, and improve operational efficiency.
-
+                Automate repetitive tasks, gain visibility into assets, and
+                improve operational efficiency.
               </p>
             </div>
 
@@ -407,11 +421,11 @@ It automates IT tasks, enforces compliance, and reduces security risks for smoot
                 </div>
                 <h3 className="text-xl font-semibold">
                   Real-Time Monitoring & Remote Troubleshooting
-
                 </h3>
               </div>
               <p className="text-gray-400">
-                 Monitor endpoint health in real time and resolve issues quickly with built-in remote support tools
+                Monitor endpoint health in real time and resolve issues quickly
+                with built-in remote support tools
               </p>
             </div>
 
@@ -423,12 +437,11 @@ It automates IT tasks, enforces compliance, and reduces security risks for smoot
                 </div>
                 <h3 className="text-xl font-semibold">
                   Scalable & Enterprise-Ready
-
                 </h3>
               </div>
               <p className="text-gray-400">
-                 Easily scale endpoint management as your organization grows, while supporting hybrid and remote work environments securely.
-
+                Easily scale endpoint management as your organization grows,
+                while supporting hybrid and remote work environments securely.
               </p>
             </div>
           </div>
@@ -437,6 +450,11 @@ It automates IT tasks, enforces compliance, and reduces security risks for smoot
             <Button
               size="lg"
               className="bg-green-500 hover:bg-green-600 text-black font-semibold"
+              onClick={() => {
+                document
+                  .getElementById("contactform")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
             >
               Contact Us Today
             </Button>
@@ -445,7 +463,10 @@ It automates IT tasks, enforces compliance, and reduces security risks for smoot
       </section>
 
       {/* Core Capabilities Section */}
-      <section id="capabilities" className="py-20 bg-gradient-to-b from-black to-gray-950 border-t border-gray-800">
+      <section
+        id="capabilities"
+        className="py-20 bg-gradient-to-b from-black to-gray-950 border-t border-gray-800"
+      >
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left Image */}
@@ -466,7 +487,6 @@ It automates IT tasks, enforces compliance, and reduces security risks for smoot
               <div>
                 <h2 className="text-4xl lg:text-5xl font-bold mb-6">
                   Endpoint Central – Core Capabilities
-
                 </h2>
               </div>
 
@@ -481,49 +501,41 @@ It automates IT tasks, enforces compliance, and reduces security risks for smoot
                   <span className="text-green-400 font-bold">•</span>
                   <span className="text-lg">
                     Asset Discovery & Inventory Tracking
-
-
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-green-400 font-bold">•</span>
                   <span className="text-lg">
                     Remote Control & Troubleshooting
-
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-green-400 font-bold">•</span>
                   <span className="text-lg">
                     Mobile Device Management (MDM)
-
-
-
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-green-400 font-bold">•</span>
-                  <span className="text-lg">Configuration & Compliance Management
-</span>
+                  <span className="text-lg">
+                    Configuration & Compliance Management
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-green-400 font-bold">•</span>
                   <span className="text-lg">
                     Detailed Audit Reports & Analytics
-
                   </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-green-400 font-bold">•</span>
+                  <span className="text-lg">Role-Based Access Control</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-green-400 font-bold">•</span>
                   <span className="text-lg">
-                    Role-Based Access Control
-
+                    Software Deployment & License Management
                   </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-green-400 font-bold">•</span>
-                  <span className="text-lg">Software Deployment & License Management
-</span>
                 </li>
               </ul>
             </div>
@@ -537,45 +549,39 @@ It automates IT tasks, enforces compliance, and reduces security risks for smoot
           <div className="max-w-4xl mx-auto">
             <h2 className="text-4xl lg:text-5xl font-bold text-center mb-12">
               Who Should Use ManageEngine Endpoint Central?
-
             </h2>
 
             <div className="bg-gray-900 border border-gray-800 rounded-lg p-12 space-y-6">
               <div className="flex items-start gap-4">
                 <span className="text-green-400 text-2xl font-bold">✓</span>
                 <p className="text-lg">
-                  IT administrators managing desktops, laptops, servers, or mobile devices
-
+                  IT administrators managing desktops, laptops, servers, or
+                  mobile devices
                 </p>
               </div>
               <div className="flex items-start gap-4">
                 <span className="text-green-400 text-2xl font-bold">✓</span>
                 <p className="text-lg">
                   Enterprises seeking automated patching and software deployment
-
                 </p>
               </div>
               <div className="flex items-start gap-4">
                 <span className="text-green-400 text-2xl font-bold">✓</span>
                 <p className="text-lg">
                   Organizations enforcing endpoint security and compliance
-
                 </p>
               </div>
               <div className="flex items-start gap-4">
                 <span className="text-green-400 text-2xl font-bold">✓</span>
                 <p className="text-lg">
-                 Companies aiming to reduce IT overhead and manual tasks
-
+                  Companies aiming to reduce IT overhead and manual tasks
                 </p>
               </div>
               <div className="flex items-start gap-4">
                 <span className="text-green-400 text-2xl font-bold">✓</span>
                 <p className="text-lg">
-                  Businesses requiring centralized monitoring and reporting of all endpoints
-
-
-
+                  Businesses requiring centralized monitoring and reporting of
+                  all endpoints
                 </p>
               </div>
             </div>
@@ -584,23 +590,33 @@ It automates IT tasks, enforces compliance, and reduces security risks for smoot
       </section>
 
       {/* Final CTA Section */}
-      <section id="contact" className="py-20 bg-gradient-to-b from-black to-gray-950 border-t border-gray-800">
+      <section
+        id="contact"
+        className="py-20 bg-gradient-to-b from-black to-gray-950 border-t border-gray-800"
+      >
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <div>
               <h2 className="text-4xl lg:text-5xl font-bold mb-6">
                 Take Control of Your Endpoints with Endpoint Central
-
               </h2>
               <p className="text-xl text-gray-400 leading-relaxed">
-                Automate endpoint management, strengthen security, and streamline IT operations with ManageEngine Endpoint Central. Get expert guidance to implement a scalable, efficient, and compliant endpoint management strategy tailored to your organization.
-
+                Automate endpoint management, strengthen security, and
+                streamline IT operations with ManageEngine Endpoint Central. Get
+                expert guidance to implement a scalable, efficient, and
+                compliant endpoint management strategy tailored to your
+                organization.
               </p>
             </div>
 
             <Button
               size="lg"
               className="bg-green-500 hover:bg-green-600 text-black font-semibold"
+              onClick={() => {
+                document
+                  .getElementById("contactform")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
             >
               Talk to an ITSM Expert
             </Button>
