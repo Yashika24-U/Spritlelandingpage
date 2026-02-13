@@ -24,13 +24,13 @@ function Router() {
       <Route path={"/pam360"} component={Pagelanding} />
 
       <Route path={"/admanager360"} component={Pagethree} />
-      <Route path={"/adpagefour"} component={Pagefour} />
+      <Route path={"/ad360"} component={Pagefour} />
       <Route path={"/mdmplus"} component={Pagefive} />
       <Route path={"/endpointcentral"} component={Pagesix} />
       <Route path={"/opmanagerplus"} component={Pageseven} />
-      <Route path={"/sitepageeight"} component={Pageeight} />
+      <Route path={"/site24x7"} component={Pageeight} />
       <Route path={"/analyticsplus"} component={Pagenine} />
-      <Route path={"/logpageten"} component={Pageten} />
+      <Route path={"/log360"} component={Pageten} />
 
       {/* Final fallback route */}
       <Route component={NotFound} />
