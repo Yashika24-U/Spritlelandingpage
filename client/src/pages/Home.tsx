@@ -71,13 +71,19 @@ export default function Home() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="text-2xl font-bold">
-              <div className="text-2xl font-bold">
-                <img
-                  src="/images/spritlelogo.png"
-                  alt="Spritle Logo"
-                  className="h-10 w-auto"
-                />
-              </div>
+              {/* <span className="text-green-400">SPRITLE</span> */}
+              {/* <img src="client\public\images\spritlelogo.png"/> */}
+              {/* <img src={`${import.meta.env.BASE_URL}images/spritlelogo.png`} alt="Spritle Logo" />
+               */}
+               <div className="text-2xl font-bold">
+  <img
+    src={`${import.meta.env.BASE_URL}images/spritlelogo.png`}
+    alt="Spritle Logo"
+    className="h-10 w-auto"
+  />
+</div>
+
+
             </div>
           </div>
           {/* <nav className="hidden md:flex gap-8">
